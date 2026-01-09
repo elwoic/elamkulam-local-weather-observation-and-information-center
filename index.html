@@ -1,43 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Redirecting…</title>
+<meta charset="UTF-8">
+<title>Elamkulam Local Weather Observation & Information Centre</title>
 
-  <!-- 5 second redirect -->
-  <meta http-equiv="refresh" content="5;url=https://elwoic.github.io/elamkulam-local-weather-observation-and-information-centre/">
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: #eef2f6;
+    font-family: "Segoe UI", Arial, sans-serif;
+    overflow: hidden;
+  }
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding-top: 60px;
-      background: #f7f7f7;
-    }
-    .box {
-      background: #fff;
-      display: inline-block;
-      padding: 25px 35px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-  </style>
+  .stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .logo {
+    position: absolute;
+    top: 28%;
+    width: 130px;
+    opacity: 0;
+  }
+
+  .logo.main {
+    left: -200px;
+    animation: slideInLeft 1.6s ease forwards,
+               orbit 3s linear infinite 2s;
+  }
+
+  .logo.map {
+    right: -200px;
+    animation: slideInRight 1.6s ease forwards 0.4s,
+               orbitReverse 3s linear infinite 2s;
+  }
+
+  @keyframes slideInLeft {
+    to { left: 38%; opacity: 1; }
+  }
+
+  @keyframes slideInRight {
+    to { right: 38%; opacity: 1; }
+  }
+
+  @keyframes orbit {
+    from { transform: rotate(0deg) translateX(10px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(10px) rotate(-360deg); }
+  }
+
+  @keyframes orbitReverse {
+    from { transform: rotate(0deg) translateX(-10px) rotate(0deg); }
+    to   { transform: rotate(-360deg) translateX(-10px) rotate(360deg); }
+  }
+
+  .content {
+    position: absolute;
+    top: 55%;
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    animation: fadeUp 1.2s ease forwards 1.8s;
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(-8px); }
+  }
+
+  h1 {
+    font-size: 1.6em;
+    margin-bottom: 8px;
+    color: #1b2a3a;
+  }
+
+  .ml {
+    font-size: 1.05em;
+    color: #2c4d6b;
+    margin-bottom: 6px;
+  }
+
+  .desc {
+    font-size: 0.95em;
+  }
+
+  .disclaimer {
+    margin-top: 12px;
+    font-size: 0.82em;
+    color: #555;
+  }
+
+  .skip {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+  }
+
+  .skip button {
+    border: 1px solid #2c4d6b;
+    background: transparent;
+    padding: 6px 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    color: #2c4d6b;
+  }
+
+  .skip button:hover {
+    background: #2c4d6b;
+    color: white;
+  }
+
+  .progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: #2c4d6b;
+    width: 0;
+    animation: load 5s linear forwards;
+  }
+
+  @keyframes load {
+    to { width: 100%; }
+  }
+</style>
 </head>
+
 <body>
 
-  <div class="box">
-    <h2>Site Address Updated</h2>
-    <p>
-      This page has moved to a new address.<br>
-      You will be redirected in <strong>5 seconds</strong>.
-    </p>
-    <p>
-      If not redirected,
-      <a href="https://elwoic.github.io/elamkulam-local-weather-observation-and-information-centre/">
-        click here
-      </a>.
-    </p>
+<div class="stage">
+
+  <img src="ELWOIC.png" class="logo main" alt="ELWOIC Logo">
+  <img src="Elamkulam Weather Logo Design.1.png" class="logo map" alt="Elamkulam Map Logo">
+
+  <div class="content">
+    <h1>Elamkulam Local Weather Observation & Information Centre</h1>
+    <div class="ml">
+      ഏലംകുളം സമൂഹത്തിന് — ഒരു വിദ്യാർത്ഥിയുടെ സമർപ്പണം.
+    </div>
+    <div class="desc">
+      Powered by <strong>ELWOIC</strong> · A community weather initiative by a student<br>
+      Elamkulam, Malappuram, Kerala
+    </div>
+    <div class="disclaimer">
+      This is a student-made project for educational and informational purposes only.
+    </div>
+    <div style="margin-top:6px;">
+      Created by <strong>Aswanth Krishna K</strong>
+    </div>
   </div>
+
+  <div class="skip">
+    <button onclick="go()">Skip Intro →</button>
+  </div>
+
+  <div class="progress"></div>
+
+</div>
+
+<script>
+  const url =
+    "https://elwoic.github.io/elamkulam-local-weather-observation-and-information-centre/";
+
+  const TOTAL_TIME = 5000; // 5 seconds
+  let elapsed = 0;
+  let lastTime = null;
+  let paused = false;
+
+  const stage = document.querySelector(".stage");
+  const progress = document.querySelector(".progress");
+
+  function update(timestamp) {
+    if (!lastTime) lastTime = timestamp;
+    if (!paused) {
+      elapsed += timestamp - lastTime;
+      const percent = Math.min(elapsed / TOTAL_TIME, 1);
+      progress.style.width = (percent * 100) + "%";
+
+      if (elapsed >= TOTAL_TIME) {
+        window.location.href = url;
+        return;
+      }
+    }
+    lastTime = timestamp;
+    requestAnimationFrame(update);
+  }
+
+  requestAnimationFrame(update);
+
+  function pauseIntro() {
+    paused = true;
+    stage.classList.add("paused");
+  }
+
+  function resumeIntro() {
+    paused = false;
+    stage.classList.remove("paused");
+  }
+
+  // 📱 Mobile: press & hold
+  document.addEventListener("touchstart", pauseIntro);
+  document.addEventListener("touchend", resumeIntro);
+
+  // 💻 Desktop: mouse click & hold
+  document.addEventListener("mousedown", pauseIntro);
+  document.addEventListener("mouseup", resumeIntro);
+
+  function go() {
+    window.location.href = url;
+  }
+</script>
+
 
 </body>
 </html>
