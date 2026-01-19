@@ -128,7 +128,7 @@
 </head>
 
 <body>
-
+<audio id="introAudio" src="BoloTTS_Audio-a_background_sound_for_a_webpage_intro_that_shows_weather_details_of_Elamkulam_Kerala.wav"></audio>
 <div class="stage">
 
   <img src="ELWOIC.png" class="logo main" alt="ELWOIC Logo">
@@ -210,6 +210,27 @@
   function go() {
     window.location.href = url;
   }
+  const audio = document.getElementById("introAudio");
+
+// Start audio when the script runs
+// Note: Browsers often require a user click to play audio automatically.
+// Since you have a "touch/click to pause" feature, it will likely trigger here.
+window.addEventListener('load', () => {
+    audio.play().catch(e => console.log("Audio needs user interaction to start"));
+});
+
+// Update your existing pause/resume functions to affect the audio too
+function pauseIntro() {
+    paused = true;
+    stage.classList.add("paused");
+    audio.pause(); // Added this
+}
+
+function resumeIntro() {
+    paused = false;
+    stage.classList.remove("paused");
+    audio.play(); // Added this
+}
 </script>
 
 
