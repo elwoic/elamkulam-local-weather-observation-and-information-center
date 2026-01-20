@@ -12,6 +12,27 @@
     font-family: "Segoe UI", Arial, sans-serif;
     overflow: hidden;
   }
+.welcome {
+  position: absolute;
+  top: 18%;
+  width: 100%;
+  text-align: center;
+  font-size: 1.15em;
+  color: #4fa3d1; /* light blue */
+  opacity: 0;
+  animation: welcomeFade 1.6s ease forwards 0.6s;
+}
+
+@keyframes welcomeFade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
   .stage {
     position: relative;
@@ -130,6 +151,9 @@
 <body>
 <audio id="introAudio" src="welcome.mp3"></audio>
 <div class="stage">
+<div class="welcome">
+  ഏലംകുളം പ്രാദേശിക കാലാവസ്ഥ നിരീക്ഷണ വിജ്ഞാന കേന്ദ്രത്തിലേക്ക് സ്വാഗതം.
+</div>
 
   <img src="ELWOIC.png" class="logo main" alt="ELWOIC Logo">
   <img src="Elamkulam Weather Logo Design.1.png" class="logo map" alt="Elamkulam Map Logo">
