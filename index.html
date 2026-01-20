@@ -128,7 +128,7 @@
 </head>
 
 <body>
-<audio id="introAudio" src="welcome.wav"></audio>
+<audio id="introAudio" src="welcome.mp3"></audio>
 <div class="stage">
 
   <img src="ELWOIC.png" class="logo main" alt="ELWOIC Logo">
@@ -231,6 +231,22 @@ function resumeIntro() {
     stage.classList.remove("paused");
     audio.play(); // Added this
 }
+</script>
+<script>
+const audio = document.getElementById("introAudio");
+let audioStarted = false;
+
+function startAudio() {
+  if (!audioStarted) {
+    audio.play().catch(()=>{});
+    audioStarted = true;
+  }
+}
+
+// Any user interaction will start audio
+document.addEventListener("click", startAudio);
+document.addEventListener("touchstart", startAudio);
+document.addEventListener("keydown", startAudio);
 </script>
 
 
